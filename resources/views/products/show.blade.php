@@ -13,43 +13,41 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <label for="code"
-                            class="col-md-4 col-formlabel text-md-end text-start"><strong>Code:</strong></label>
-                        <div class="col-md-6" style="line-height:35px;">
-                            {{ $product->code }}
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="fw-bold">Code:</label>
+                                <span>{{ $product->code }}</span>
+                            </div>
+                            <div class="mb-3">
+                                <label class="fw-bold">Name:</label>
+                                <span>{{ $product->name }}</span>
+                            </div>
+                            <div class="mb-3">
+                                <label class="fw-bold">Quantity:</label>
+                                <span>{{ $product->quantity }}</span>
+                            </div>
+                            <div class="mb-3">
+                                <label class="fw-bold">Price:</label>
+                                <span>{{ $product->price }}</span>
+                            </div>
+                            <div class="mb-3">
+                                <label class="fw-bold">Description:</label>
+                                <span>{{ $product->description }}</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-center">
+                            @if($product->img_url)
+                                <img src="{{ asset('storage/' . $product->img_url) }}" alt="{{ $product->name }}" class="img-fluid" style="max-height: 300px">
+                            @else
+                                <p>No image available</p>
+                            @endif
                         </div>
                     </div>
-                    <div class="row">
-                        <label for="name"
-                            class="col-md-4 col-formlabel text-md-end text-start"><strong>Name:</strong></label>
-                        <div class="col-md-6" style="line-height:35px;">
-                            {{ $product->name }}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <label for="quantity"
-                            class="col-md-4 colform-label text-md-end text-start"><strong>Quantity:</strong></label>
-                        <div class="col-md-6" style="line-height:35px;">
-                            {{ $product->quantity }}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <label for="price"
-                            class="col-md-4 col-formlabel text-md-end text-start"><strong>Price:</strong></label>
-                        <div class="col-md-6" style="line-height:35px;">
-                            {{ $product->price }}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <label for="description"
-                            class="col-md-4 colform-label text-md-end textstart"><strong>Description:</strong></label>
-                        <div class="col-md-6" style="line-height:35px;">
-                            {{ $product->description }}
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>
     </div>
 @endsection
+
+
+

@@ -15,6 +15,13 @@
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mt-3">
             <h3>Simple Laravel 11 CRUD Application Tutorial</h3>
+            <span class="d-flex align-items-center">
+                @if (Auth::check())
+                    <i class="bi bi-person-circle me-1"></i>
+                    <span class="text-secondary">Signed in as:</span>
+                    <span class="fw-bold ms-1 text-primary">{{ Auth::user()->name }}</span>
+                @endif
+            </span>
             @auth
                 <form action="{{ route('logout') }}" method="POST" class="d-inline">
                     @csrf
@@ -34,5 +41,6 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+@yield('scripts')
 
 </html>

@@ -12,6 +12,8 @@
                  'name',
                  'quantity',
                 'price',
-                'description'
+                'description',
+                'img_url'
              ];
 }
+

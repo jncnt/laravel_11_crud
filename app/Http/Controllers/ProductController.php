@@ -5,6 +5,7 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Storage;
 class ProductController extends Controller
 {
     /**
@@ -28,7 +29,15 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request): RedirectResponse
     {
-        Product::create($request->validated());
+        $validated = $request->validated();
+        
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+            $validated['img_url'] = $imagePath;
+        }
+        
+        Product::create($validated);
         return redirect()->route('products.index')->withSuccess('New product is added successfully.');
     }
     /**
@@ -50,8 +59,21 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product): RedirectResponse
     {
-        $product->update($request->validated());
-        return redirect()->back()->withSuccess('Product is updated successfully.');
+        $validated = $request->validated();
+        
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            // Delete old image if exists
+            if ($product->img_url) {
+                Storage::disk('public')->delete($product->img_url);
+            }
+            
+            $imagePath = $request->file('image')->store('products', 'public');
+            $validated['img_url'] = $imagePath;
+        }
+        
+        $product->update($validated);
+        return redirect()->route('products.index')->withSuccess('Product is updated successfully.');
     }
     /**
      * Remove the specified resource from storage.
@@ -62,3 +84,5 @@ class ProductController extends Controller
         return redirect()->route('products.index')->withSuccess('Product is deleted successfully.');
     }
 }
+
+

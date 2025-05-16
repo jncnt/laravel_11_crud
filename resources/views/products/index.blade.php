@@ -8,16 +8,18 @@
                 </div>
             @endsession
             <div class="card">
-                <div class="card-header">Product List</div>
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span>Product List</span>
+                    <a href="{{ route('products.create') }}" class="btn btn-success btn-sm">
+                        <i class="bi bi-plus-circle"></i> Add New Product
+                    </a>
+                </div>
                 <div class="card-body">
-                    <a href="{{ route('products.create') }}" class="btn 
-btn-success btn-sm my-2"><i
-                            class="bi bi-plus-circle"></i> Add New
-                        Product</a>
                     <table class="table table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th scope="col">S#</th>
+                                <th scope="col">Image</th>
                                 <th scope="col">Code</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Quantity</th>
@@ -29,32 +31,44 @@ btn-success btn-sm my-2"><i
                             @forelse ($products as $product)
                                 <tr>
                                     <th scope="row">{{ $loop->iteration }}</th>
+                                    <td class="text-center">
+                                        @if($product->img_url)
+                                            <img src="{{ asset('storage/' . $product->img_url) }}" 
+                                                alt="{{ $product->name }}" 
+                                                class="img-thumbnail" 
+                                                style="width: 80px; height: 80px; object-fit: cover;">
+                                        @else
+                                            <div class="text-muted">No image</div>
+                                        @endif
+                                    </td>
                                     <td>{{ $product->code }}</td>
                                     <td>{{ $product->name }}</td>
                                     <td>{{ $product->quantity }}</td>
-                                    <td>{{ $product->price }}</td>
+                                    <td>${{ number_format($product->price, 2) }}</td>
                                     <td>
-                                        <form action="{{ route('products.destroy', $product->id) }}" method="post">
+                                        <form action="{{ route('products.destroy', $product->id) }}" method="post" class="d-inline">
                                             @csrf
                                             @method('DELETE')
-                                            <a href="{{ route('products.show', $product->id) }}"
-                                                class="btn btn-warning btn-sm"><i class="bi bieye"></i> Show</a>
-                                            <a href="{{ route('products.edit', $product->id) }}"
-                                                class="btn btn-primary btn-sm"><i class="bi bipencil-square"></i> Edit</a>
-                                            <button type="submit" class="btn 
-btn-danger btn-sm"
-                                                onclick="return confirm('Do you want to delete this 
-product?');"><i
-                                                    class="bi bi-trash"></i> Delete</button>
+                                            <a href="{{ route('products.show', $product->id) }}" class="btn btn-warning btn-sm">
+                                                <i class="bi bi-eye"></i> Show
+                                            </a>
+                                            <a href="{{ route('products.edit', $product->id) }}" class="btn btn-primary btn-sm">
+                                                <i class="bi bi-pencil-square"></i> Edit
+                                            </a>
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Do you want to delete this product?');">
+                                                <i class="bi bi-trash"></i> Delete
+                                            </button>
                                         </form>
                                     </td>
                                 </tr>
                             @empty
-                                <td colspan="6">
-                                    <span class="text-danger">
-                                        <strong>No Product Found!</strong>
-                                    </span>
-                                </td>
+                                <tr>
+                                    <td colspan="7" class="text-center">
+                                        <span class="text-danger">
+                                            <strong>No Product Found!</strong>
+                                        </span>
+                                    </td>
+                                </tr>
                             @endforelse
                         </tbody>
                     </table>
@@ -63,5 +77,4 @@ product?');"><i
             </div>
         </div>
     </div>
-
 @endsection
