@@ -1,9 +1,6 @@
 <!-- filepath: d:\Backend2\laravel_11_crud\resources\views\auth\login.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
-    @if (Auth::check())
-    <script>window.location = "{{ route('products.index') }}";</script>
-@endif
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,6 +18,11 @@
                         <h4>Login</h4>
                     </div>
                     <div class="card-body">
+                        @if ($errors->has('email'))
+                        <div class="alert alert-danger">
+                        {{ $errors->first('email') }}
+                    </div>
+                        @endif
                         <form action="{{ route('login') }}" method="POST">
                             @csrf
                             <div class="mb-3">
