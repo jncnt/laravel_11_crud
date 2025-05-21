@@ -17,19 +17,30 @@ class LoginController extends Controller
     }
     public function login(Request $request)
     {
-        $request->validate([
+  
+          $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
 
-        if (Auth::attempt($request->only('email', 'password'), $request->filled('remember'))) {
-            return redirect()->intended('products'); 
+ 
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials, $request->filled('remember'))) {
+           
+            $request->session()->regenerate();
+
+          
+            return redirect()->intended(route('products.index'));
         }
 
+      
         return back()->withErrors([
-            'email' => 'Invalid credentials.',
-        ]);
-    }
+            'email' => 'The provided credentials do not match our records.',
+        ])->withInput(); 
+  
+
+}
 
    
 }
